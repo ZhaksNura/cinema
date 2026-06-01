@@ -51,7 +51,7 @@ html,body{height:100%;overflow:hidden;background:black;color:white;}
   position:absolute;inset:0;
   background-size:cover;
   background-position:center;
-  filter: brightness(0.4) contrast(1.1) saturate(1.25);
+  filter: brightness(0.3) contrast(1.1) saturate(1.1);
   transform:scale(1.03);
   opacity:0;
   transition:opacity 2.5s ease-in-out;
@@ -88,35 +88,51 @@ html,body{height:100%;overflow:hidden;background:black;color:white;}
   position:fixed;
   top:50%;left:50%;
   transform:translate(-50%,-50%);
-  width:92%;max-width:550px;
-  padding:clamp(25px,6vw,45px);
+  width:92%;max-width:480px;
+  padding:clamp(20px,5vw,35px);
   text-align:center;
-  background:rgba(12, 5, 20, 0.6);
-  border:none;
+  background:rgba(15, 8, 25, 0.65);
+  border:1px solid rgba(255,255,255,0.05);
   border-radius:24px;
-  backdrop-filter:blur(22px);
-  -webkit-backdrop-filter:blur(22px);
-  box-shadow:0 25px 60px rgba(0,0,0,0.65), 0 0 40px rgba(255,105,180,0.06);
+  backdrop-filter:blur(25px);
+  -webkit-backdrop-filter:blur(25px);
+  box-shadow:0 25px 60px rgba(0,0,0,0.7), 0 0 40px rgba(255,105,180,0.05);
   z-index:10;
-  max-height:85vh;
+  max-height:90vh;
   overflow-y:auto;
   -webkit-overflow-scrolling:touch;
 }
 
-h1{font-size:clamp(20px,5.5vw,30px);margin-bottom:16px;letter-spacing:1px;font-weight:600;}
-p{opacity:0.92;line-height:1.8;margin-bottom:26px;font-size:clamp(14px,3.8vw,16px);font-weight:300;}
+/* Окошко для фотографий внутри карточки */
+.card-img-wrapper {
+  width: 100%;
+  height: clamp(180px, 45vw, 260px);
+  margin-bottom: 20px;
+  border-radius: 16px;
+  overflow: hidden;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+  display: none;
+}
+.card-img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+h1{font-size:clamp(18px,5vw,26px);margin-bottom:12px;letter-spacing:1px;font-weight:600;}
+p{opacity:0.92;line-height:1.6;margin-bottom:22px;font-size:clamp(14px,3.5vw,15px);font-weight:300;}
 
 .divider{
   width:80px;height:2px;
   background:linear-gradient(90deg,transparent,#ff89ba,transparent);
-  margin:0 auto 24px;
+  margin:0 auto 18px;
 }
 
 /* ── BUTTONS ── */
 .btn{
-  padding:clamp(12px,3.5vw,15px) clamp(25px,6vw,35px);
+  padding:clamp(11px,3vw,14px) clamp(22px,5vw,30px);
   border-radius:50px;border:none;cursor:pointer;
-  margin:8px;font-size:clamp(14px,3.8vw,16px);
+  margin:6px;font-size:clamp(13px,3.5vw,15px);
   transition:transform 0.25s,box-shadow 0.25s;
   touch-action:manipulation;
   -webkit-tap-highlight-color:transparent;
@@ -127,13 +143,13 @@ p{opacity:0.92;line-height:1.8;margin-bottom:26px;font-size:clamp(14px,3.8vw,16p
   color:#2c1020;font-weight:600;
   box-shadow:0 6px 22px rgba(255,154,158,0.35);
 }
-.primary:hover,.primary:active{transform:scale(1.05);box-shadow:0 8px 30px rgba(255,154,158,0.55);}
+.primary:hover,.primary:active{transform:scale(1.03);box-shadow:0 8px 30px rgba(255,154,158,0.55);}
 .ghost{
   background:transparent;
-  border:1px solid rgba(255,255,255,0.4);
-  color:rgba(255,255,255,0.9);
+  border:1px solid rgba(255,255,255,0.3);
+  color:rgba(255,255,255,0.85);
 }
-.ghost:hover,.ghost:active{transform:scale(1.05);background:rgba(255,255,255,0.05);}
+.ghost:hover,.ghost:active{transform:scale(1.03);background:rgba(255,255,255,0.05);}
 
 @media(max-width:350px){
   .btn{display:block;width:100%;margin:6px 0;}
@@ -158,7 +174,6 @@ p{opacity:0.92;line-height:1.8;margin-bottom:26px;font-size:clamp(14px,3.8vw,16p
   <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=2000&q=80')"></div>
   <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=2000&q=80')"></div>
   <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=2000&q=80')"></div>
-  <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1524712245354-2c4e5e7134cd?auto=format&fit=crop&w=2000&q=80')"></div>
 </div>
 
 <div class="vignette"></div>
@@ -166,14 +181,17 @@ p{opacity:0.92;line-height:1.8;margin-bottom:26px;font-size:clamp(14px,3.8vw,16p
 <div class="leak"></div>
 
 <div class="card" id="card">
-  <h1>🎬 Загрузка истории</h1>
+  <div class="card-img-wrapper" id="card-img-w"><img src="" class="card-img" id="card-img"></div>
+  <h1 id="card-title">🎬 Загрузка истории</h1>
   <div class="divider"></div>
-  <p>Подготовка персонального фильма...</p>
-  <button class="btn primary" onclick="start()">▶ Начать</button>
+  <p id="card-text">Подготовка персонального фильма для особенного человека...</p>
+  <div id="card-btns">
+    <button class="btn primary" onclick="start()">▶ Начать</button>
+  </div>
 </div>
 
 <script>
-/* ── СМЕНА ФОНОВ (Каждые 5 секунд) ── */
+/* ── СМЕНА БЭКГРАУНДОВ ── */
 const slides = document.querySelectorAll('.slide');
 let cur = 0;
 setInterval(() => {
@@ -182,7 +200,7 @@ setInterval(() => {
   slides[cur].classList.add('active');
 }, 5000);
 
-/* ── ЧИСТАЯ МУЗЫКА ИЗ РЕПОЗИТОРИЯ БЕЗ РЕКЛАМЫ ── */
+/* ── МУЗЫКА ── */
 let musicStarted = false;
 let audio = new Audio('music.mp3');
 audio.loop = true;
@@ -190,10 +208,9 @@ audio.loop = true;
 function startMusic() {
   if (musicStarted) return;
   musicStarted = true;
-  audio.play().catch(e => console.log("Музыка ожидает взаимодействия пользователя"));
+  audio.play().catch(e => console.log("Музыка ждет клика"));
 }
 
-/* Приятный легкий отклик при тапе */
 document.addEventListener('click', () => {
   try {
     const ctx = new (window.AudioContext || window.webkitAudioContext)();
@@ -215,21 +232,92 @@ function start() {
   next(1);
 }
 
+/* ── УПРАВЛЕНИЕ СЦЕНАМИ И 5 ФОТОГРАФИЯМИ ── */
 function next(step) {
-  const card = document.getElementById('card');
-  const wrap = (title, body, btns) => `
-    <h1>${title}</h1>
-    <div class="divider"></div>
-    <p>${body}</p>
-    ${btns}
-  `;
+  const t = document.getElementById('card-title');
+  const txt = document.getElementById('card-text');
+  const btns = document.getElementById('card-btns');
+  const imgW = document.getElementById('card-img-w');
+  const img = document.getElementById('card-img');
 
-  if (step === 1) card.innerHTML = wrap('✨ Сцена 1', 'Система обнаружила очень важного человека...', `<button class="btn primary" onclick="next(2)">Продолжить</button>`);
-  if (step === 2) card.innerHTML = wrap('🎥 Камера включена', 'Наша история начинается прямо сейчас...', `<button class="btn primary" onclick="next(3)">Дальше</button>`);
-  if (step === 3) card.innerHTML = wrap('🍿 Приглашение', 'Есть кое-кто, кто очень хочет провести этот вечер с тобой.', `<button class="btn primary" onclick="next(4)">Узнать кто ❤️</button>`);
-  if (step === 4) card.innerHTML = wrap('❤️ Это я', `Кокошне, приглашаю тебя в кино.<br><br>📅 Сегодня — 1 июня 2026<br>🕖 После работы<br><br>Это наш маленький Hollywood-момент 🎬✨`, `<button class="btn primary" onclick="next(5)">С удовольствием 💕</button> <button class="btn ghost" onclick="next(6)">Мне нужно подумать</button>`);
-  if (step === 5) card.innerHTML = wrap('🌟 Финал', `🎬 Наш кинотеатр уже ждёт нас<br>🍿 Попкорн готов<br>💛 Осталось только встретиться!`, ``);
-  if (step === 6) card.innerHTML = wrap('🌙 Понимаю', 'Я оставлю эту сцену открытой для тебя... 💌', ``);
+  const update = (title, text, btnHtml, imgSrc = '') => {
+    t.innerHTML = title;
+    txt.innerHTML = text;
+    btns.innerHTML = btnHtml;
+    if(imgSrc) {
+      img.src = imgSrc;
+      imgW.style.display = 'block';
+    } else {
+      imgW.style.display = 'none';
+    }
+  };
+
+  if (step === 1) {
+    update(
+      '✨ Сцена 1: Фокус', 
+      'Среди миллионов людей в этом мире система сфокусировалась на одной невероятной девушке. Да-да, Кокошна, речь именно о тебе! Похоже, этот день станет особенным...', 
+      `<button class="btn primary" onclick="next(2)">Посмотреть, что дальше</button>`,
+      'photo1.jpeg'
+    );
+  }
+  
+  if (step === 2) {
+    update(
+      '🎥 Сцена 2: Момент', 
+      'Иногда среди рабочих будней, дедлайнов и бесконечной суеты нужно просто нажать на паузу. Сделать глубокий вдох и подарить себе красивую историю, созданную только для нас.', 
+      `<button class="btn primary" onclick="next(3)">Открыть секрет</button>`,
+      'photo2.jpeg'
+    );
+  }
+  
+  if (step === 3) {
+    update(
+      '🍿 Сцена 3: Идея', 
+      'У меня созрел отличный план. Никаких забот, только уютная атмосфера, выключенный телефон, приглушенный свет большого экрана и самый вкусный попкорн.', 
+      `<button class="btn primary" onclick="next(4)">Посмотреть детали</button>`,
+      'photo3.jpeg'
+    );
+  }
+
+  if (step === 4) {
+    update(
+      '🌟 Сцена 4: Настроение', 
+      'Самые лучшие моменты случаются спонтанно. Время ловить улыбки, делиться мыслями и просто наслаждаться хорошей компанией в правильном месте.', 
+      `<button class="btn primary" onclick="next(5)">Узнать главное ❤️</button>`,
+      'photo4.jpeg'
+    );
+  }
+  
+  if (step === 5) {
+    update(
+      '❤️ Это я', 
+      `Кокошне, официально и от всей души приглашаю тебя в кино!<br><br>
+       📅 <b>Сегодня — 1 июня 2026</b><br>
+       <b>Время:</b> После работы<br><br>
+       Давай создадим наш маленький, идеальный Hollywood-момент 🎬✨`, 
+      `<button class="btn primary" onclick="next(6)">С удовольствием 💕</button> 
+       <button class="btn ghost" onclick="next(7)">Мне нужно подумать</button>`,
+      'photo5.jpeg'
+    );
+  }
+  
+  if (step === 6) {
+    update(
+      '🎉 Ура, финал!', 
+      `Прекрасный выбор! Сценарий утвержден, билеты забронированы, а попкорн уже начинает греться. 🍿<br><br>
+       Осталось дождаться вечера и встретиться. Жду с нетерпением! 💛`, 
+      ``,
+      'photo5.jpeg'
+    );
+  }
+  
+  if (step === 7) {
+    update(
+      '🌙 Оставляю интригу', 
+      'Понимаю, хорошим сценариям нужно время на размышление. Твое место в первом ряду забронировано, а эта сцена останется открытой для тебя... Напиши мне, как примешь решение! 💌', 
+      ``
+    );
+  }
 }
 </script>
 </body>
