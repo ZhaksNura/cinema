@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>Hollywood Trailer Invitation</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:Poppins,sans-serif;}
+html,body{height:100%;overflow:hidden;background:black;color:white;}
+
+/* ── HOLLYWOOD INTRO ── */
+#intro{
+  position:fixed;inset:0;
+  background:black;
+  display:flex;align-items:center;justify-content:center;
+  z-index:20;
+  animation:fadeOut 3s ease forwards;
+  animation-delay:3s;
+  pointer-events:none;
+}
+.studio{
+  font-size:clamp(18px,5vw,42px);
+  letter-spacing:6px;
+  text-align:center;
+  opacity:0;
+  animation:show 2.5s ease forwards;
+  padding:0 20px;line-height:1.5;
+}
+.studio .name-line{
+  display:flex;align-items:center;justify-content:center;
+  gap:20px;flex-wrap:nowrap;
+}
+.studio .presents{
+  color:#ffd700;
+  display:block;
+  font-size:clamp(11px,2.8vw,17px);
+  margin-top:10px;letter-spacing:4px;
+}
+
+@keyframes show{
+  0%{opacity:0;transform:scale(0.8);}
+  60%{opacity:1;}
+  100%{opacity:1;transform:scale(1);}
+}
+@keyframes fadeOut{to{opacity:0;visibility:hidden;}}
+
+/* ── SLIDESHOW BACKGROUNDS ── */
+.slides{position:fixed;inset:0;z-index:0;}
+.slide{
+  position:absolute;inset:0;
+  background-size:cover;
+  background-position:center;
+  /* Атмосферные фильтры: теплота, глубина, неоновые тона */
+  filter: brightness(0.4) contrast(1.1) saturate(1.25);
+  transform:scale(1.03);
+  opacity:0;
+  transition:opacity 2.5s ease-in-out;
+}
+.slide.active{opacity:1;}
+
+/* ── OVERLAYS ── */
+.vignette{
+  position:fixed;inset:0;z-index:1;
+  background:radial-gradient(ellipse at center,
+    rgba(32, 14, 46, 0.25) 0%,     /* Любовный пурпурно-неоновый оттенок */
+    rgba(14, 6, 23, 0.65) 60%,
+    rgba(0,0,0,0.92) 100%);
+}
+.grain{
+  position:fixed;inset:0;z-index:2;
+  background-image:url("https://grainy-gradients.vercel.app/noise.svg");
+  opacity:0.04;pointer-events:none;
+}
+/* Теплый розово-золотой блик */
+.leak{
+  position:fixed;top:-20%;left:-20%;
+  width:90%;height:90%;
+  background:radial-gradient(circle,rgba(255,145,185,0.1),transparent 70%);
+  z-index:2;pointer-events:none;
+  animation:drift 16s ease-in-out infinite alternate;
+}
+@keyframes drift{
+  from{transform:translate(0,0) scale(1);}
+  to{transform:translate(12%,8%) scale(1.08);}
+}
+
+/* Рамки (Letterbox bars) полностью убраны */
+
+/* ── CARD ── */
+.card{
+  position:fixed;
+  top:50%;left:50%;
+  transform:translate(-50%,-50%);
+  width:92%;max-width:550px;
+  padding:clamp(25px,6vw,45px);
+  text-align:center;
+  /* Мягкий матовый фон без резких рамок */
+  background:rgba(12, 5, 20, 0.6);
+  border:none;
+  border-radius:24px;
+  backdrop-filter:blur(22px);
+  -webkit-backdrop-filter:blur(22px);
+  box-shadow:0 25px 60px rgba(0,0,0,0.65), 0 0 40px rgba(255,105,180,0.06);
+  z-index:10;
+  max-height:85vh;
+  overflow-y:auto;
+  -webkit-overflow-scrolling:touch;
+}
+
+h1{font-size:clamp(20px,5.5vw,30px);margin-bottom:16px;letter-spacing:1px;font-weight:600;}
+p{opacity:0.92;line-height:1.8;margin-bottom:26px;font-size:clamp(14px,3.8vw,16px);font-weight:300;}
+
+/* Градиентный разделитель */
+.divider{
+  width:80px;height:2px;
+  background:linear-gradient(90deg,transparent,#ff89ba,transparent);
+  margin:0 auto 24px;
+}
+
+/* ── BUTTONS ── */
+.btn{
+  padding:clamp(12px,3.5vw,15px) clamp(25px,6vw,35px);
+  border-radius:50px;border:none;cursor:pointer;
+  margin:8px;font-size:clamp(14px,3.8vw,16px);
+  transition:transform 0.25s,box-shadow 0.25s;
+  touch-action:manipulation;
+  -webkit-tap-highlight-color:transparent;
+  display:inline-block;
+}
+.primary{
+  background:linear-gradient(135deg, #ff9a9e 0%, #fecfef 100%);
+  color:#2c1020;font-weight:600;
+  box-shadow:0 6px 22px rgba(255,154,158,0.35);
+}
+.primary:hover,.primary:active{transform:scale(1.05);box-shadow:0 8px 30px rgba(255,154,158,0.55);}
+.ghost{
+  background:transparent;
+  border:1px solid rgba(255,255,255,0.4);
+  color:rgba(255,255,255,0.9);
+}
+.ghost:hover,.ghost:active{transform:scale(1.05);background:rgba(255,255,255,0.05);}
+
+@media(max-width:350px){
+  .btn{display:block;width:100%;margin:6px 0;}
+}
+
+/* Скрытый YouTube плеер */
+#yt-frame{
+  position:fixed;bottom:-9999px;left:-9999px;
+  width:1px;height:1px;opacity:0;pointer-events:none;
+}
+</style>
+</head>
+<body>
+
+<div id="intro">
+  <div class="studio">
+    <div class="name-line">
+      <span>A</span>
+      <span>N A U R I Z B A I</span>
+    </div>
+    P I C T U R E S
+    <span class="presents">presents</span>
+  </div>
+</div>
+
+<div class="slides" id="slides">
+  <div class="slide active" style="background-image:url('https://images.unsplash.com/photo-1489599849927-2ee91cede3ba?auto=format&fit=crop&w=2000&q=80')"></div>
+  <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1517604931442-7e0c8ed2963c?auto=format&fit=crop&w=2000&q=80')"></div>
+  <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1478720568477-152d9b164e26?auto=format&fit=crop&w=2000&q=80')"></div>
+  <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1536440136628-849c177e76a1?auto=format&fit=crop&w=2000&q=80')"></div>
+  <div class="slide" style="background-image:url('https://images.unsplash.com/photo-1524712245354-2c4e5e7134cd?auto=format&fit=crop&w=2000&q=80')"></div>
+</div>
+
+<div class="vignette"></div>
+<div class="grain"></div>
+<div class="leak"></div>
+
+<iframe id="yt-frame"
+  src="about:blank"
+  allow="autoplay"
+  frameborder="0">
+</iframe>
+
+<div class="card" id="card">
+  <h1>🎬 Загрузка истории</h1>
+  <div class="divider"></div>
+  <p>Подготовка персонального фильма...</p>
+  <button class="btn primary" onclick="start()">▶ Начать</button>
+</div>
+
+<script>
+/* ── СМЕНА ФОНОВ (Каждые 5 секунд) ── */
+const slides = document.querySelectorAll('.slide');
+let cur = 0;
+setInterval(() => {
+  slides[cur].classList.remove('active');
+  cur = (cur + 1) % slides.length;
+  slides[cur].classList.add('active');
+}, 5000);
+
+/* ── МУЗЫКА: Ренат Гайсин - Сүйемін ── */
+let musicStarted = false;
+function startMusic() {
+  if (musicStarted) return;
+  musicStarted = true;
+  
+  // Код видео __BkuCigKdM — официальный клип трека Рината Гайсина «Сүйемін»
+  const frame = document.getElementById('yt-frame');
+  frame.src = 'https://www.youtube.com/embed/__BkuCigKdM?autoplay=1&loop=1&playlist=__BkuCigKdM&controls=0&mute=0';
+}
+
+/* Приятный легкий отклик при тапе */
+document.addEventListener('click', () => {
+  try {
+    const ctx = new (window.AudioContext || window.webkitAudioContext)();
+    const o = ctx.createOscillator();
+    const g = ctx.createGain();
+    o.frequency.value = 240;
+    g.gain.value = 0.012;
+    o.connect(g); g.connect(ctx.destination);
+    o.start(); o.stop(ctx.currentTime + 0.04);
+  } catch(e){}
+});
+
+let started = false;
+function start() {
+  if (!started) {
+    started = true;
+    startMusic();
+  }
+  next(1);
+}
+
+function next(step) {
+  const card = document.getElementById('card');
+
+  const wrap = (title, body, btns) => `
+    <h1>${title}</h1>
+    <div class="divider"></div>
+    <p>${body}</p>
+    ${btns}
+  `;
+
+  if (step === 1) card.innerHTML = wrap(
+    '✨ Сцена 1',
+    'Система обнаружила очень важного человека...',
+    `<button class="btn primary" onclick="next(2)">Продолжить</button>`
+  );
+
+  if (step === 2) card.innerHTML = wrap(
+    '🎥 Камера включена',
+    'Наша история начинается прямо сейчас...',
+    `<button class="btn primary" onclick="next(3)">Дальше</button>`
+  );
+
+  if (step === 3) card.innerHTML = wrap(
+    '🍿 Приглашение',
+    'Есть кое-кто, кто очень хочет провести этот вечер с тобой.',
+    `<button class="btn primary" onclick="next(4)">Узнать кто ❤️</button>`
+  );
+
+  if (step === 4) card.innerHTML = wrap(
+    '❤️ Это я',
+    `Кокошне, приглашаю тебя в кино.<br><br>
+     📅 Сегодня — 1 июня 2026<br>
+     🕖 После работы<br><br>
+     Это наш маленький Hollywood-момент 🎬✨`,
+    `<button class="btn primary" onclick="next(5)">С удовольствием 💕</button>
+     <button class="btn ghost" onclick="next(6)">Мне нужно подумать</button>`
+  );
+
+  if (step === 5) card.innerHTML = wrap(
+    '🌟 Финал',
+    `🎬 Наш кинотеатр уже ждёт нас<br>
+     🍿 Попкорн готов<br>
+     💛 Осталось только встретиться!`,
+    ``
+  );
+
+  if (step === 6) card.innerHTML = wrap(
+    '🌙 Понимаю',
+    'Я оставлю эту сцену открытой для тебя... 💌',
+    ``
+  );
+}
+</script>
+
+</body>
+</html>
