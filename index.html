@@ -51,7 +51,6 @@ html,body{height:100%;overflow:hidden;background:black;color:white;}
   position:absolute;inset:0;
   background-size:cover;
   background-position:center;
-  /* Атмосферные фильтры: теплота, глубина, неоновые тона */
   filter: brightness(0.4) contrast(1.1) saturate(1.25);
   transform:scale(1.03);
   opacity:0;
@@ -63,7 +62,7 @@ html,body{height:100%;overflow:hidden;background:black;color:white;}
 .vignette{
   position:fixed;inset:0;z-index:1;
   background:radial-gradient(ellipse at center,
-    rgba(32, 14, 46, 0.25) 0%,     /* Любовный пурпурно-неоновый оттенок */
+    rgba(32, 14, 46, 0.25) 0%,
     rgba(14, 6, 23, 0.65) 60%,
     rgba(0,0,0,0.92) 100%);
 }
@@ -72,7 +71,6 @@ html,body{height:100%;overflow:hidden;background:black;color:white;}
   background-image:url("https://grainy-gradients.vercel.app/noise.svg");
   opacity:0.04;pointer-events:none;
 }
-/* Теплый розово-золотой блик */
 .leak{
   position:fixed;top:-20%;left:-20%;
   width:90%;height:90%;
@@ -85,8 +83,6 @@ html,body{height:100%;overflow:hidden;background:black;color:white;}
   to{transform:translate(12%,8%) scale(1.08);}
 }
 
-/* Рамки (Letterbox bars) полностью убраны */
-
 /* ── CARD ── */
 .card{
   position:fixed;
@@ -95,7 +91,6 @@ html,body{height:100%;overflow:hidden;background:black;color:white;}
   width:92%;max-width:550px;
   padding:clamp(25px,6vw,45px);
   text-align:center;
-  /* Мягкий матовый фон без резких рамок */
   background:rgba(12, 5, 20, 0.6);
   border:none;
   border-radius:24px;
@@ -111,7 +106,6 @@ html,body{height:100%;overflow:hidden;background:black;color:white;}
 h1{font-size:clamp(20px,5.5vw,30px);margin-bottom:16px;letter-spacing:1px;font-weight:600;}
 p{opacity:0.92;line-height:1.8;margin-bottom:26px;font-size:clamp(14px,3.8vw,16px);font-weight:300;}
 
-/* Градиентный разделитель */
 .divider{
   width:80px;height:2px;
   background:linear-gradient(90deg,transparent,#ff89ba,transparent);
@@ -144,12 +138,6 @@ p{opacity:0.92;line-height:1.8;margin-bottom:26px;font-size:clamp(14px,3.8vw,16p
 @media(max-width:350px){
   .btn{display:block;width:100%;margin:6px 0;}
 }
-
-/* Скрытый YouTube плеер */
-#yt-frame{
-  position:fixed;bottom:-9999px;left:-9999px;
-  width:1px;height:1px;opacity:0;pointer-events:none;
-}
 </style>
 </head>
 <body>
@@ -177,12 +165,6 @@ p{opacity:0.92;line-height:1.8;margin-bottom:26px;font-size:clamp(14px,3.8vw,16p
 <div class="grain"></div>
 <div class="leak"></div>
 
-<iframe id="yt-frame"
-  src="about:blank"
-  allow="autoplay"
-  frameborder="0">
-</iframe>
-
 <div class="card" id="card">
   <h1>🎬 Загрузка истории</h1>
   <div class="divider"></div>
@@ -200,15 +182,15 @@ setInterval(() => {
   slides[cur].classList.add('active');
 }, 5000);
 
-/* ── МУЗЫКА: Ренат Гайсин - Сүйемін ── */
+/* ── ЧИСТАЯ МУЗЫКА ИЗ РЕПОЗИТОРИЯ БЕЗ РЕКЛАМЫ ── */
 let musicStarted = false;
+let audio = new Audio('music.mp3');
+audio.loop = true;
+
 function startMusic() {
   if (musicStarted) return;
   musicStarted = true;
-  
-  // Код видео __BkuCigKdM — официальный клип трека Рината Гайсина «Сүйемін»
-  const frame = document.getElementById('yt-frame');
-  frame.src = 'https://www.youtube.com/embed/__BkuCigKdM?autoplay=1&loop=1&playlist=__BkuCigKdM&controls=0&mute=0';
+  audio.play().catch(e => console.log("Музыка ожидает взаимодействия пользователя"));
 }
 
 /* Приятный легкий отклик при тапе */
@@ -235,7 +217,6 @@ function start() {
 
 function next(step) {
   const card = document.getElementById('card');
-
   const wrap = (title, body, btns) => `
     <h1>${title}</h1>
     <div class="divider"></div>
@@ -243,49 +224,13 @@ function next(step) {
     ${btns}
   `;
 
-  if (step === 1) card.innerHTML = wrap(
-    '✨ Сцена 1',
-    'Система обнаружила очень важного человека...',
-    `<button class="btn primary" onclick="next(2)">Продолжить</button>`
-  );
-
-  if (step === 2) card.innerHTML = wrap(
-    '🎥 Камера включена',
-    'Наша история начинается прямо сейчас...',
-    `<button class="btn primary" onclick="next(3)">Дальше</button>`
-  );
-
-  if (step === 3) card.innerHTML = wrap(
-    '🍿 Приглашение',
-    'Есть кое-кто, кто очень хочет провести этот вечер с тобой.',
-    `<button class="btn primary" onclick="next(4)">Узнать кто ❤️</button>`
-  );
-
-  if (step === 4) card.innerHTML = wrap(
-    '❤️ Это я',
-    `Кокошне, приглашаю тебя в кино.<br><br>
-     📅 Сегодня — 1 июня 2026<br>
-     🕖 После работы<br><br>
-     Это наш маленький Hollywood-момент 🎬✨`,
-    `<button class="btn primary" onclick="next(5)">С удовольствием 💕</button>
-     <button class="btn ghost" onclick="next(6)">Мне нужно подумать</button>`
-  );
-
-  if (step === 5) card.innerHTML = wrap(
-    '🌟 Финал',
-    `🎬 Наш кинотеатр уже ждёт нас<br>
-     🍿 Попкорн готов<br>
-     💛 Осталось только встретиться!`,
-    ``
-  );
-
-  if (step === 6) card.innerHTML = wrap(
-    '🌙 Понимаю',
-    'Я оставлю эту сцену открытой для тебя... 💌',
-    ``
-  );
+  if (step === 1) card.innerHTML = wrap('✨ Сцена 1', 'Система обнаружила очень важного человека...', `<button class="btn primary" onclick="next(2)">Продолжить</button>`);
+  if (step === 2) card.innerHTML = wrap('🎥 Камера включена', 'Наша история начинается прямо сейчас...', `<button class="btn primary" onclick="next(3)">Дальше</button>`);
+  if (step === 3) card.innerHTML = wrap('🍿 Приглашение', 'Есть кое-кто, кто очень хочет провести этот вечер с тобой.', `<button class="btn primary" onclick="next(4)">Узнать кто ❤️</button>`);
+  if (step === 4) card.innerHTML = wrap('❤️ Это я', `Кокошне, приглашаю тебя в кино.<br><br>📅 Сегодня — 1 июня 2026<br>🕖 После работы<br><br>Это наш маленький Hollywood-момент 🎬✨`, `<button class="btn primary" onclick="next(5)">С удовольствием 💕</button> <button class="btn ghost" onclick="next(6)">Мне нужно подумать</button>`);
+  if (step === 5) card.innerHTML = wrap('🌟 Финал', `🎬 Наш кинотеатр уже ждёт нас<br>🍿 Попкорн готов<br>💛 Осталось только встретиться!`, ``);
+  if (step === 6) card.innerHTML = wrap('🌙 Понимаю', 'Я оставлю эту сцену открытой для тебя... 💌', ``);
 }
 </script>
-
 </body>
 </html>
